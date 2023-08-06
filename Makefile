@@ -2,11 +2,14 @@ ISA ?= x86
 ISAS = x86 riscv
 SRC = src/$(ISA).md
 BUILD_DIR = ./build
+TMP_FILE = $(BUILD_DIR)/tmp.md
 TARGET = $(BUILD_DIR)/$(ISA).html
 PROJECT_ROOT = $(PWD)
 
 $(TARGET): $(SRC) | $(BUILD_DIR)
-	markmap --offline --no-open -o $@ $^
+	cat $^ src/version.md > $(TMP_FILE)
+	markmap --offline --no-open -o $@ $(TMP_FILE)
+	rm $(TMP_FILE)
 
 $(BUILD_DIR):
 	mkdir -p $@
